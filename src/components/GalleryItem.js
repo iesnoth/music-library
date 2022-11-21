@@ -40,7 +40,7 @@ function GalleryItem(props) {
     const detailStyle = {
         'width': '80vw',
         'height': '20vh',
-        'border': '1px solid black',
+        'border': '1px solid black',                    
         'margin': '2px',
         'backgroundImage': `url(${props.item.artworkUrl100})`,
         'backgroundSize': 'contain',
