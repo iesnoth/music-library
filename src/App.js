@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Gallery from './components/Gallery'
 import SearchBar from './components/SearchBar'
+import {createResource as fetchData} from './helper'
 
 function App() {
 	let [search, setSearch] = useState('')
@@ -11,17 +12,7 @@ function App() {
 
 	useEffect(() => {
 		if(search) {
-			const fetchData = async () => {
-				document.title = `${search} Music`
-				const response = await fetch(API_URL + search)
-				const resData = await response.json()
-				if (resData.results.length > 0) {
-					return setData(resData.results)
-				} else {
-					return setMessage('Not Found')
-				}
-			}
-			fetchData()
+			setData(fetchData(search))
 		}
 	}, [search])
 	
