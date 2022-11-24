@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import Gallery from './components/Gallery'
 import SearchBar from './components/SearchBar'
 import { createResource as fetchData } from './helper'
@@ -16,16 +16,27 @@ function App() {
 		}
 	}, [search])
 
+
 	const handleSearch = (e, term) => {
 		e.preventDefault()
 		setSearch(term)
 	}
 
+	const renderGallery = () => {
+		if (data) {
+			return (
+				<Suspense fallback={<h1>Loading...</h1>}>
+					<Gallery data={data} />
+				</Suspense>
+			)
+		}
+	}
+
 	return (
-		<div>
+		<div className="App">
 			<SearchBar handleSearch={handleSearch} />
 			{message}
-			{/* <Gallery data={data} /> */}
+			{renderGallery()}
 		</div>
 	);
 }

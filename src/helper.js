@@ -5,37 +5,38 @@ const fetchSearch = async (search) => {
     return resData.results
 }
 
-//fetchSearch returns a promise, we want wrapPromise to take than promise
-//as an argument
+// Being that our fetchSearch function returns a promise,
+// We want wrapPromise to take that promise as an argument.
 const wrapPromise = (promise) => {
-    //the default state of the promise is "pending"
+    // the default state of our promise. We assume it to be pending.
     let status = 'pending'
-    //result will store the data we get from the promise.
+    // result will store the data we get from the promise.
     let result = ''
-    //suspender represents promise solution
-    //an ideal resolution should flag the status to "success"
-    //and our catch should set it to "error"
-    let suspender = promise.then(response =>{
+    // our suspender represents the resolution of the promise.
+    // An ideal resolution should flag the status to "success"
+    // And our catch should set it to "error".
+    let suspender = promise.then(response => {
         status = 'success'
         result = response
     }, err => {
         status = 'error'
-        result = err 
+        result = err
     })
 
-    //return an objects which emits a different response
-    //depending on our status
-    return{
+    // finally, we should plan to return an object that emits
+    // a different response depending on our status:
+    return {
         read() {
-            //if the promise hasn't triggered, run it
-            if(status === 'pending'){
+            // if the promise hasn't triggered, run it!
+            if(status === 'pending') {
+                throw suspender
+            }
+            // otherwise, send an error 
+            else if (status === 'error') {
                 throw result
             }
-            else if (status === 'error'){
-                throw result
-            }
-            //if status isn't pending or error, we should
-            //send/accept result
+            // if the status is neither "pending" nor "error",
+            // we should just send the result forward!
             return result
         }
     }
