@@ -1,21 +1,21 @@
 import { useEffect, useState } from 'react'
 import Gallery from './components/Gallery'
 import SearchBar from './components/SearchBar'
-import {createResource as fetchData} from './helper'
+import { createResource as fetchData } from './helper'
 
 function App() {
 	let [search, setSearch] = useState('')
 	let [message, setMessage] = useState('Search for Music!')
-	let [data, setData] = useState([])
+	let [data, setData] = useState([null])
 
-	const API_URL = 'https://itunes.apple.com/search?term='
+	// const API_URL = 'https://itunes.apple.com/search?term='
 
 	useEffect(() => {
-		if(search) {
+		if (search) {
 			setData(fetchData(search))
 		}
 	}, [search])
-	
+
 	const handleSearch = (e, term) => {
 		e.preventDefault()
 		setSearch(term)
@@ -23,11 +23,11 @@ function App() {
 
 	return (
 		<div>
-			<SearchBar handleSearch = {handleSearch}/>
+			<SearchBar handleSearch={handleSearch} />
 			{message}
-			<Gallery data={data} />
+			{/* <Gallery data={data} /> */}
 		</div>
-  	);
+	);
 }
 
 export default App;
